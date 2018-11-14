@@ -1,8 +1,11 @@
 class Game{
-  constructor(){
 
-    
-  }
+    constructor(){
+
+        this.table = new Table();
+        scene.add(this.table);
+
+    }
 
 
 

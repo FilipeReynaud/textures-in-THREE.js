@@ -9,6 +9,7 @@ function animate(){
 
 function createScene(){
     scene = new THREE.Scene();
+    game = new Game();
 
     scene.add(new THREE.AxesHelper( 1 ));
 }
@@ -64,15 +65,9 @@ function init(){
 
     document.body.appendChild(renderer.domElement);
 
-    var material = new THREE.MeshLambertMaterial({color: 0x696969});
-    var geometry = new THREE.BoxGeometry(1,1,1, 10, 10, 10);
-    var cube = new THREE.Mesh( geometry, material);
-
     createScene();
     createCamera();
     createLight();
-    scene.add(cube);
-
     render();
 
     window.addEventListener('resize', onResize);

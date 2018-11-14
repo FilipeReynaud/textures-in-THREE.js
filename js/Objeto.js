@@ -13,25 +13,9 @@ class Objeto extends THREE.Object3D {
         return mesh;
     }
 
-    rotateMesh(obj, angle, axis) {
-        switch(axis) {
-            case 'x':
-                obj.rotateX(angle);
-                break;
-            case 'y':
-                obj.rotateY(angle);
-                break;
-            case 'z':
-                obj.rotateZ(angle);
-                break;
-        }
-    }
-
     addElement(x, y, z, geometry, material) {
 		    this.add(this.createMesh(geometry, material, x, y, z));
+        //scene.add(mesh);
     }
 
-    addToScene(mesh) {
-        scene.add(mesh);
-    }
 }
