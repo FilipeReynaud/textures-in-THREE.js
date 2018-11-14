@@ -1,4 +1,4 @@
-var camera, scene, airplane;
+var camera, scene, airplane, directionalLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -15,7 +15,7 @@ function createScene(){
 
 function createCamera(){
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(5, 5, 5);
+    camera.position.set(10, 10, 10);
     camera.lookAt(scene.position);}
 
 function render(){
@@ -23,6 +23,11 @@ function render(){
 }
 
 function createLight(){
+    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+    var helper = new THREE.DirectionalLightHelper( directionalLight, 1 );
+    directionalLight.position.set(3, 4, 2);
+    scene.add(directionalLight);
+    scene.add(helper);
 }
 
 function onResize(){
@@ -59,9 +64,15 @@ function init(){
 
     document.body.appendChild(renderer.domElement);
 
+    var material = new THREE.MeshLambertMaterial({color: 0x696969});
+    var geometry = new THREE.BoxGeometry(1,1,1, 10, 10, 10);
+    var cube = new THREE.Mesh( geometry, material);
+
     createScene();
     createCamera();
     createLight();
+    scene.add(cube);
+
     render();
 
     window.addEventListener('resize', onResize);
