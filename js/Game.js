@@ -1,10 +1,14 @@
-const MAX_VELOCITY = 15; 
+const MAX_VELOCITY = 15;
 
 class Game{
 
     constructor(){
 
         this.table = new Table();
+
+        this.cube = new RubikCube();
+        scene.add(this.table);
+        scene.add(this.cube);
         this.translactionAngle = 0;
         this.translactionVelocity = 0;
         this.eightBallPool = new EightBallPool();
@@ -27,5 +31,14 @@ class Game{
         this.eightBallPool.position.x = 3 * Math.sin(this.translactionAngle);
         return false;
     }
+
+    rotateBall(){
+    	var quaternion = new THREE.Quaternion();
+    	var angle = this.translactionVelocity;
+
+    	quaternion.setFromAxisAngle(new THREE.Vector3(this.translactionVelocity, 0, this.translactionVelocity).normalize(), angle/10);
+    	this.eightBallPool.children[0].applyQuaternion(quaternion);
+   	}
+
 
 }

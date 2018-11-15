@@ -2,6 +2,7 @@ var camera, scene, airplane, directionalLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var clock = new THREE.Clock();
+
 var accelaration = 0;
 
 function animate(){
@@ -25,13 +26,14 @@ function render(){
 
     if(game.moveBall(clock.getDelta(), accelaration))
         accelaration = 0;
+    game.rotateBall();
     renderer.render(scene, camera);
 }
 
 function createLight(){
     directionalLight = new THREE.DirectionalLight(0xFFFFFF, 400);
     var helper = new THREE.DirectionalLightHelper( directionalLight, 1 );
-    directionalLight.position.set(3, 4, 2);
+    directionalLight.position.set(3, 8, 2);
     directionalLight.rotateY(- Math.PI / 6);
     directionalLight.rotateZ(- Math.PI / 4);
     scene.add(directionalLight);
