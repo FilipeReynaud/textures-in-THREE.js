@@ -27,6 +27,7 @@ function render(){
 
 function moveBall() {
     game.moveBall(clock.getDelta());
+    game.rotateBall(clock.getDelta());
 }
 
 function createLight(){
