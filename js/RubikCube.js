@@ -4,6 +4,7 @@ class RubikCube extends Objeto{
         super();
 
         var materials = [];
+        //Vector with the name of the color of each face of the cube
         var names = [
           "../textures/Red.png", "../textures/Green.png",
           "../textures/Blue.png", "../textures/Orange.png",
@@ -14,17 +15,12 @@ class RubikCube extends Objeto{
           var texture = new THREE.TextureLoader().load( names[i] );
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
+          texture.anisotropy = renderer.getMaxAnisotropy();
           texture.repeat.set( 3, 3 );
-          materials.push(new THREE.MeshBasicMaterial( { map: texture}));
+          materials.push(new THREE.MeshPhongMaterial( { map: texture, shininess: 15, bumpMap: texture, bumpScale: 0.01}));
         }
 
         var material = new THREE.MeshFaceMaterial( materials );
-
-        // var texture = new THREE.TextureLoader().load( "../textures/Green.png" );
-        // texture.wrapS = THREE.RepeatWrapping;
-        // texture.wrapT = THREE.RepeatWrapping;
-        // texture.repeat.set( 3, 3 );
-        // material.map = texture;
 
         this.addElement(0, 0.55, 0, new THREE.BoxGeometry(1, 1, 1, 5, 5, 5), material);
 

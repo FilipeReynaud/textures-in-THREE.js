@@ -32,7 +32,7 @@ function moveBall() {
 }
 
 function createLight(){
-    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 400);
+    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 4);
     var helper = new THREE.DirectionalLightHelper( directionalLight, 1 );
     directionalLight.position.set(3, 8, 2);
     directionalLight.rotateY(- Math.PI / 6);
@@ -57,7 +57,7 @@ function onKeyDown(event) {
                 }
             });
             break;
-        case 66:
+        case 66: //Tecla 'b'
             accelaration = 1;
             break;
         default: break;

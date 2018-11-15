@@ -1,4 +1,4 @@
-const MAX_VELOCITY = 15;
+const MAX_VELOCITY = 2;
 
 class Game{
 
@@ -33,9 +33,6 @@ class Game{
     rotateBall(time, accelaration){
     	var quaternion = new THREE.Quaternion();
     	var angle = this.translactionVelocity;
-
-    	console.log(time);
-    	console.log(angle);
 
     	quaternion.setFromAxisAngle(new THREE.Vector3(this.translactionVelocity, 0, this.translactionVelocity).normalize(), angle/10);
     	this.eightBallPool.children[0].applyQuaternion(quaternion);
