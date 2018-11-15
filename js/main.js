@@ -1,6 +1,7 @@
 var camera, scene, airplane, directionalLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
+var clock = new THREE.Clock();
 
 function animate(){
     render();
@@ -20,7 +21,12 @@ function createCamera(){
     camera.lookAt(scene.position);}
 
 function render(){
+    moveBall();
     renderer.render(scene, camera);
+}
+
+function moveBall() {
+    game.moveBall(clock.getDelta());
 }
 
 function createLight(){

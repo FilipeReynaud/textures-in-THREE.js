@@ -3,7 +3,7 @@ class EightBallPool extends Objeto{
     constructor(){
         super();
 
-        var texture = new THREE.TextureLoader().load("textures/8Ball.png");
+        var texture = new THREE.TextureLoader().load("../textures/8Ball.png");
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(2,1);
