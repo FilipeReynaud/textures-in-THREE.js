@@ -14,16 +14,18 @@ class Game{
     }
 
     moveBall(time, accelaration) {
-        if(this.translactionVelocity >= MAX_VELOCITY)
+        if (this.translactionVelocity < 0) {
+            this.translactionVelocity = 0;
+            return true;
+        }
+        else if(this.translactionVelocity >= MAX_VELOCITY)
             this.translactionVelocity = MAX_VELOCITY;
-        else if (-this.translactionVelocity >= MAX_VELOCITY)
-            this.translactionVelocity = -MAX_VELOCITY;
         else
             this.translactionVelocity += time * accelaration;
-
-            this.translactionAngle += this.translactionVelocity * this.time;
+        this.translactionAngle += this.translactionVelocity * time;
         this.eightBallPool.position.z = 3 * Math.cos(this.translactionAngle);
         this.eightBallPool.position.x = 3 * Math.sin(this.translactionAngle);
+        return false;
     }
 
 }

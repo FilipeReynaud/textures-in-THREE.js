@@ -22,12 +22,10 @@ function createCamera(){
     camera.lookAt(scene.position);}
 
 function render(){
-    moveBall();
-    renderer.render(scene, camera);
-}
 
-function moveBall() {
-    game.moveBall(clock.getDelta(), accelaration);
+    if(game.moveBall(clock.getDelta(), accelaration))
+        accelaration = 0;
+    renderer.render(scene, camera);
 }
 
 function createLight(){
