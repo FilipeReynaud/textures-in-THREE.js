@@ -1,3 +1,5 @@
+const MAX_VELOCITY = 15; 
+
 class Game{
 
     constructor(){
@@ -11,21 +13,28 @@ class Game{
 
     }
 
-    moveBall(time) {
-        this.translactionAngle += time * Math.PI; 
+    moveBall(time, accelaration) {
+        if(this.translactionVelocity >= MAX_VELOCITY)
+            this.translactionVelocity = MAX_VELOCITY;
+        else if (-this.translactionVelocity >= MAX_VELOCITY)
+            this.translactionVelocity = -MAX_VELOCITY;
+        else
+            this.translactionVelocity += time * accelaration;
+
+            this.translactionAngle += this.translactionVelocity * time;
         this.eightBallPool.position.z = 3 * Math.cos(this.translactionAngle);
         this.eightBallPool.position.x = 3 * Math.sin(this.translactionAngle);
     }
 
-    rotateBall(time){
+    rotateBall(time, accelaration){
     	var quaternion = new THREE.Quaternion();
+    	var angle = this.translactionVelocity;
 
-    	var angle = translactionVelocity/time;
-
+    	console.log(time);
     	console.log(angle);
 
-    	quaternion.setFromAxisAngle(new THREE.Vector3(this.eightBallPool.position.z, this.eightBallPool.position.y, -this.eightBallPool.position.x).normalize(), angle);
-    	this.eightBallPool.mesh.applyQuaternion(quaternion);
+    	quaternion.setFromAxisAngle(new THREE.Vector3(this.translactionVelocity, 0, this.translactionVelocity).normalize(), angle/10);
+    	this.eightBallPool.children[0].applyQuaternion(quaternion);
    	}
 
 

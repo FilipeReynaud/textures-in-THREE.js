@@ -2,6 +2,7 @@ var camera, scene, airplane, directionalLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var clock = new THREE.Clock();
+var accelaration = 0;
 
 function animate(){
     render();
@@ -26,8 +27,8 @@ function render(){
 }
 
 function moveBall() {
-    game.moveBall(clock.getDelta());
-    game.rotateBall(clock.getDelta());
+    game.moveBall(clock.getDelta(), accelaration);
+    game.rotateBall(clock.getDelta(), accelaration);
 }
 
 function createLight(){
@@ -49,21 +50,27 @@ function onResize(){
 function onKeyDown(event) {
 
     switch(event.keyCode){
-      case 65: //Tecla 'a' -> alternar entre wireframe e solid color
-          scene.traverse(function (node){
-              if(node instanceof THREE.Mesh){
-                  node.material.wireframe = !node.material.wireframe;
-              }
-          });
-          break;
-      default: break;
+        case 65: //Tecla 'a' -> alternar entre wireframe e solid color
+            scene.traverse(function (node){
+                if(node instanceof THREE.Mesh){
+                    node.material.wireframe = !node.material.wireframe;
+                }
+            });
+            break;
+        case 66:
+            accelaration = 1;
+            break;
+        default: break;
     }
 }
 
 function onKeyUp(event) {
 
     switch(event.keyCode){
-      default: break;
+        case 66:
+            accelaration = -1;
+            break;
+        default: break;
     }
 }
 
