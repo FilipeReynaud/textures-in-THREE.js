@@ -24,7 +24,7 @@ function render(){
 }
 
 function createLight(){
-    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 400);
     var helper = new THREE.DirectionalLightHelper( directionalLight, 1 );
     directionalLight.position.set(3, 4, 2);
     scene.add(directionalLight);
