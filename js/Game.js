@@ -23,7 +23,7 @@ class Game{
             this.translactionVelocity = 0;
             return true;
         }
-        else if(this.translactionVelocity >= MAX_VELOCITY && accelaration != -1)
+        else if(this.translactionVelocity >= MAX_VELOCITY && acceleration != -1)
             this.translactionVelocity = MAX_VELOCITY;
         else
             this.translactionVelocity += time * acceleration;

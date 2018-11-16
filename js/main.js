@@ -4,7 +4,7 @@ var height = window.innerHeight;
 var clock = new THREE.Clock();
 var reset = false;
 var paused = false;
-var accelaration = 0;
+var acceleration = 0;
 var unpause = false;
 
 function animate(){
@@ -41,8 +41,8 @@ function render(){
         unpause = false;
     }
 
-    if(game.moveBall(clock.getDelta(), accelaration))
-        accelaration = 0;
+    if(game.moveBall(clock.getDelta(), acceleration))
+        acceleration = 0;
 
     game.rotateBall();
     renderer.render(scene, camera);
@@ -83,7 +83,7 @@ function onKeyDown(event) {
             });
             break;
         case 66: //b
-            accelaration = 1;
+            acceleration = 1;
             break;
         case 82: //r
             if (paused)
