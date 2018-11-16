@@ -36,7 +36,10 @@ function render(){
 
     if (paused && !game.paused)
         game.pause();
-
+        
+    else if (paused)
+        return;
+    
     if (unpause) {
         game.unpause();
         unpause = false;

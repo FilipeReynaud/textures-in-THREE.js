@@ -54,10 +54,9 @@ class Game{
     }
 
     pause() {
+        this.paused = true;
         scene.add(this.message);
         this.refreshTextPosition();
-        this.message.add(new THREE.AxesHelper(30));
-        this.paused = true;
     }
 
     unpause() {
