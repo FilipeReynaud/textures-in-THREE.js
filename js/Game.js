@@ -45,12 +45,36 @@ class Game{
         this.eightBallPool.children[0].applyQuaternion(quaternion);
     }
 
+    refreshTextPosition() {
+        this.message.position.copy( camera.position );
+        this.message.rotation.copy( camera.rotation );
+        this.message.updateMatrix();
+        this.message.translateZ( - 10 );
+        this.message.translateX( - 3 );
+    }
+
     pause() {
         scene.add(this.message);
+        this.refreshTextPosition();
+        this.message.add(new THREE.AxesHelper(30));
         this.paused = true;
     }
 
+    turnOffLighting(){
+    	this.table.updateMaterialNoLight();
+    	console.log(this.table);
+    	this.eightBallPool.updateMaterialNoLight();
+    	this.cube.updateMaterialNoLight();
+    }
+
+    turnOnLighting(){
+    	this.table.updateMaterialLight();
+    	this.eightBallPool.updateMaterialLight();
+    	this.cube.updateMaterialLight();
+    }
+
     unpause() {
+        this.paused = false;
         scene.children.splice(scene.children.indexOf(this.message), 1);
     }
 }

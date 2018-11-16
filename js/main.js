@@ -6,6 +6,8 @@ var reset = false;
 var paused = false;
 var acceleration = 0;
 var unpause = false;
+var lighting = true;
+var translate = false;
 
 function animate(){
     render();
@@ -26,6 +28,7 @@ function createCamera(){
 }
 
 function render(){
+    game.refreshTextPosition();
     if (reset) {
         scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
         game = new Game();
@@ -44,6 +47,10 @@ function render(){
     if(game.moveBall(clock.getDelta(), acceleration))
         acceleration = 0;
 
+    if(lighting)
+        game.turnOnLighting();
+    else
+        game.turnOffLighting();
     game.rotateBall();
     renderer.render(scene, camera);
 }
@@ -74,16 +81,12 @@ function onResize(){
 
 function onKeyDown(event) {
 
-    switch(event.keyCode){
-        case 65: //Tecla 'a' -> alternar entre wireframe e solid color
-            scene.traverse(function (node){
-                if(node instanceof THREE.Mesh){
-                    node.material.wireframe = !node.material.wireframe;
-                }
-            });
-            break;
+    switch(event.keyCode) {
         case 66: //b
-            acceleration = 1;
+            if (!paused){
+              acceleration = (translate) ? -1 : 1;
+              translate = !translate;
+            }
             break;
         case 82: //r
             if (paused)
@@ -93,7 +96,18 @@ function onKeyDown(event) {
             if (paused)
                 unpause = true;
             paused = !paused;
+            break;
+        case 76: //l
+            lighting = !lighting;
+            break;
         default: break;
+        case 87: //Tecla 'w' -> alternar entre wireframe e solid color
+            scene.traverse(function (node){
+                if(node instanceof THREE.Mesh){
+                    node.material.wireframe = !node.material.wireframe;
+                }
+            });
+            break;
     }
 }
 
@@ -101,7 +115,8 @@ function onKeyUp(event) {
 
     switch(event.keyCode){
         case 66: //Tecla 'b'
-            acceleration = -1;
+            if (!paused)
+              //  acceleration = -1;
             break;
         default: break;
     }

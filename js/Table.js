@@ -2,19 +2,28 @@ class Table extends Objeto{
 
     constructor(){
         super();
+        this.texture = new THREE.TextureLoader().load( "../textures/chess.png");
 
-        var texture = new THREE.TextureLoader().load( "../textures/chess.png");
+        this.material = new THREE.MeshStandardMaterial({color: 0x696969, roughness: 0.7, bumpMap: this.texture, bumpScale: 0.20});
 
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(4, 4);
-        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        this.texture.wrapS = THREE.RepeatWrapping;
+        this.texture.wrapT = THREE.RepeatWrapping;
+        this.texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        this.texture.repeat.set(4,4);
+        this.material.map = this.texture;
 
-        var material = new THREE.MeshStandardMaterial({ map: texture, roughness: 1, color: 0x696969, shininess: 500, bumpMap: texture, bumpScale: 0.20});
-
-        this.addElement(0, 0, 0, new THREE.BoxGeometry(10, 0.1, 10, 10, 10, 10), material);
+        this.geometry = new THREE.BoxGeometry(10, 0.1, 10, 10, 10, 10);
+        this.addElement(0, 0, 0, this.geometry, this.material);
 
         return this;
+    }
+
+    updateMaterialNoLight(){
+    	this.material = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture});
+    }
+
+    updateMaterialLight(){
+    	 this.material = new THREE.MeshPhongMaterial({color: 0x696969, shininess: 5, bumpMap: this.texture, bumpScale: 0.20});
     }
 
 }
