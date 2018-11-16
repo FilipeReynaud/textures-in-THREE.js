@@ -62,6 +62,7 @@ class Game{
 
     turnOffLighting(){
     	this.table.updateMaterialNoLight();
+    	console.log(this.table);
     	this.eightBallPool.updateMaterialNoLight();
     	this.cube.updateMaterialNoLight();
     }

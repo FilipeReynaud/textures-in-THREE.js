@@ -18,11 +18,11 @@ class EightBallPool extends Objeto{
     }
 
     updateMaterialNoLight(){
-      this.material = new THREE.MeshBasicMaterial({olor: 0x696969, map: this.texture});
+      this.material = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture});
     }
 
     updateMaterialLight(){
-      this.material = new THREE.MeshPhongMaterial({color: 0x696969, , map: this.texture});
+      this.material = new THREE.MeshPhongMaterial({color: 0x696969, map: this.texture});
     }
 
 }
