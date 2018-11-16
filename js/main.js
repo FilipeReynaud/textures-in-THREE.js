@@ -9,6 +9,11 @@ var unpause = false;
 var lighting = true;
 var translate = false;
 
+var pauseRenderer;
+var pauseScene;
+var pauseCamera;
+var sprite;
+
 function animate(){
     render();
     requestAnimationFrame(animate); //Pede ao browser para correr esta funcao assim que puder
@@ -25,6 +30,10 @@ function createCamera(){
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(10, 10, 10);
     camera.lookAt(scene.position);
+}
+
+function renderPauseMenu() {
+    pauseRenderer.render(pauseScene, pauseCamera);
 }
 
 function render(){
@@ -132,6 +141,36 @@ function onKeyDown(event) {
 }
 
 function init(){
+    //Pause menu
+    var hudCanvas = document.createElement('canvas');
+    hudCanvas.width = width;
+    hudCanvas.height = height;
+    var hudBitmap = hudCanvas.getContext('2d');
+    hudBitmap.font = "Normal 40px Arial";
+    hudBitmap.textAlign = 'center';
+    hudBitmap.fillStyle = "rgba(245,245,245,0.75)";
+    hudBitmap.fillText('Initializing...', width / 2, height / 2);
+
+    pauseCamera = new THREE.OrthographicCamera(
+        -width/2, width/2,
+        height/2, -height/2,
+        0, 30
+    );
+
+    pauseScene = new THREE.Scene();
+
+    var hudTexture = new THREE.Texture(hudCanvas);
+    hudTexture.needsUpdate = true;
+    var transparentMaterial = new THREE.MeshBasicMaterial( {map: hudTexture } );
+    transparentMaterial.transparent = true;
+
+    var planeGeometry = new THREE.PlaneGeometry( width, height );
+    var plane = new THREE.Mesh( planeGeometry, transparentMaterial );
+    pauseScene.add( plane );
+    //createPauseScene();
+    //createPauseCamera();
+
+    //Normal menu
     renderer = new THREE.WebGLRenderer();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -143,6 +182,7 @@ function init(){
     createLight();
     render();
 
+    //Event listeners
     window.addEventListener('resize', onResize);
     window.addEventListener('keydown', onKeyDown);
 

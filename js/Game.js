@@ -7,7 +7,8 @@ class Game{
         this.cube = new RubikCube();
         this.message = new Text();
         this.eightBallPool = new EightBallPool();
-
+        this.sprite = new Sprite();
+        
         scene.add(this.table);
         scene.add(this.cube);
         scene.add(this.table);
@@ -55,8 +56,14 @@ class Game{
 
     pause() {
         this.paused = true;
-        scene.add(this.message);
+        //scene.add(this.message);
+        scene.add(this.sprite);
         this.refreshTextPosition();
+    }
+
+    unpause() {
+        this.paused = false;
+        //scene.children.splice(scene.children.indexOf(this.message), 1);
     }
 
     turnOffLighting(){
@@ -69,10 +76,5 @@ class Game{
     	this.table.updateMaterialLight();
     	this.eightBallPool.updateMaterialLight();
     	this.cube.updateMaterialLight();
-    }
-
-    unpause() {
-        this.paused = false;
-        scene.children.splice(scene.children.indexOf(this.message), 1);
     }
 }

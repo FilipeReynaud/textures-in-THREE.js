@@ -2,7 +2,7 @@ var material;
 var objeto_texto;
 
 class Text extends Objeto {
-    constructor(game) {
+    constructor() {
         super();
         objeto_texto = this;
         material = new THREE.MeshLambertMaterial({color: 0x696969});

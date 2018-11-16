@@ -25,9 +25,7 @@ class RubikCube extends Objeto{
         }
 
         this.addElement(0, 0.80, 0, new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), this.materials);
-        console.log(mesh.material);
         mesh.material = this.materials2;
-        console.log(mesh.material);
 
 
         // Ciclo para pode ser possivel alternar entre wireframe e cor solida
