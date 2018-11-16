@@ -2,8 +2,10 @@ var camera, scene, directionalLight, pointLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var clock = new THREE.Clock();
-
-var acceleration = 0;
+var reset = false;
+var paused = false;
+var accelaration = 0;
+var unpause = false;
 
 function animate(){
     render();
@@ -14,18 +16,34 @@ function createScene(){
     scene = new THREE.Scene();
     game = new Game();
 
-    scene.add(new THREE.AxesHelper( 1 ));
+    scene.add(new THREE.AxesHelper( 10 ));
 }
 
 function createCamera(){
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(10, 10, 10);
-    camera.lookAt(scene.position);}
+    camera.lookAt(scene.position);
+}
 
 function render(){
+    if (reset) {
+        scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
+        game = new Game();
+        reset = false;
+        paused = false;
+    }
 
-    if(game.moveBall(clock.getDelta(), acceleration))
-        acceleration = 0;
+    if (paused && !game.paused)
+        game.pause();
+
+    if (unpause) {
+        game.unpause();
+        unpause = false;
+    }
+
+    if(game.moveBall(clock.getDelta(), accelaration))
+        accelaration = 0;
+
     game.rotateBall();
     renderer.render(scene, camera);
 }
@@ -64,9 +82,17 @@ function onKeyDown(event) {
                 }
             });
             break;
-        case 66: //Tecla 'b'
-            acceleration = 1;
+        case 66: //b
+            accelaration = 1;
             break;
+        case 82: //r
+            if (paused)
+                reset = true;
+            break;
+        case 83: //s
+            if (paused)
+                unpause = true;
+            paused = !paused;
         default: break;
     }
 }
@@ -100,5 +126,4 @@ function init(){
 
     controls = new THREE.OrbitControls(camera, renderer.domELement);
     controls.enableKeys = false;
-
 }
