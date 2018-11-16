@@ -5,6 +5,7 @@ class Table extends Objeto{
         this.texture = new THREE.TextureLoader().load( "../textures/chess.png");
 
         this.material = new THREE.MeshStandardMaterial({color: 0x696969, roughness: 0.7, bumpMap: this.texture, bumpScale: 0.20});
+        this.material2 = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture})
 
         this.texture.wrapS = THREE.RepeatWrapping;
         this.texture.wrapT = THREE.RepeatWrapping;
@@ -19,11 +20,11 @@ class Table extends Objeto{
     }
 
     updateMaterialNoLight(){
-    	this.material = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture});
+    	this.children[0].material = this.material2;
     }
 
     updateMaterialLight(){
-    	 this.material = new THREE.MeshPhongMaterial({color: 0x696969, shininess: 5, bumpMap: this.texture, bumpScale: 0.20});
+    	 this.children[0].material = this.material;
     }
 
 }

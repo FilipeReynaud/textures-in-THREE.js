@@ -1,4 +1,4 @@
-var camera, scene, directionalLight, pointLight;
+var camera, orthographicCamera, scene, pauseScene, directionalLight, pointLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var clock = new THREE.Clock();
@@ -9,9 +9,6 @@ var unpause = false;
 var lighting = true;
 var translate = false;
 
-var pauseRenderer;
-var pauseScene;
-var pauseCamera;
 var sprite;
 
 function animate(){
@@ -19,21 +16,25 @@ function animate(){
     requestAnimationFrame(animate); //Pede ao browser para correr esta funcao assim que puder
 }
 
-function createScene(){
+function createScenes(){
     scene = new THREE.Scene();
-    game = new Game();
 
-    scene.add(new THREE.AxesHelper( 10 ));
+    scene.add(new THREE.AxesHelper( -10 ));
+
+    pauseScene = new THREE.Scene();
+    pauseScene.add(new THREE.AxesHelper(-1));
+
+    game = new Game();
 }
 
-function createCamera(){
+function createCameras(){
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(10, 10, 10);
     camera.lookAt(scene.position);
-}
 
-function renderPauseMenu() {
-    pauseRenderer.render(pauseScene, pauseCamera);
+    orthographicCamera = new THREE.OrthographicCamera(-25,25,-25,25,-30,30);
+    orthographicCamera.position.set(10,10,10);
+    orthographicCamera.lookAt(scene.position);
 }
 
 function render(){
@@ -51,30 +52,35 @@ function render(){
     if (paused && !game.paused)
         game.pause();
         
-    else if (paused) {
+    else if (paused)
         clock.getDelta();
-        return;
-    }
 
     if (unpause) {
         game.unpause();
         unpause = false;
     }
 
-    if(game.moveBall(clock.getDelta(), acceleration))
+    if(!paused && game.moveBall(clock.getDelta(), acceleration))
         acceleration = 0;
 
-    if(lighting)
+    if(!paused && lighting)
         game.turnOnLighting();
-    else
+
+    else if(!paused)
         game.turnOffLighting();
-    game.rotateBall();
+
+    if(!paused) 
+        game.rotateBall();
 
     if(!directionalLight.visible)
       pointLight.intensity = 4;
+
     else
       pointLight.intensity = 2;
 
+    if(paused)
+        renderer.render(pauseScene, orthographicCamera);
+    
     renderer.render(scene, camera);
 }
 
@@ -141,44 +147,16 @@ function onKeyDown(event) {
 }
 
 function init(){
-    //Pause menu
-    var hudCanvas = document.createElement('canvas');
-    hudCanvas.width = width;
-    hudCanvas.height = height;
-    var hudBitmap = hudCanvas.getContext('2d');
-    hudBitmap.font = "Normal 40px Arial";
-    hudBitmap.textAlign = 'center';
-    hudBitmap.fillStyle = "rgba(245,245,245,0.75)";
-    hudBitmap.fillText('Initializing...', width / 2, height / 2);
-
-    pauseCamera = new THREE.OrthographicCamera(
-        -width/2, width/2,
-        height/2, -height/2,
-        0, 30
-    );
-
-    pauseScene = new THREE.Scene();
-
-    var hudTexture = new THREE.Texture(hudCanvas);
-    hudTexture.needsUpdate = true;
-    var transparentMaterial = new THREE.MeshBasicMaterial( {map: hudTexture } );
-    transparentMaterial.transparent = true;
-
-    var planeGeometry = new THREE.PlaneGeometry( width, height );
-    var plane = new THREE.Mesh( planeGeometry, transparentMaterial );
-    pauseScene.add( plane );
-    //createPauseScene();
-    //createPauseCamera();
-
-    //Normal menu
+   
     renderer = new THREE.WebGLRenderer();
+    renderer.autoClear = false;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     document.body.appendChild(renderer.domElement);
 
-    createScene();
-    createCamera();
+    createScenes();
+    createCameras();
     createLight();
     render();
 

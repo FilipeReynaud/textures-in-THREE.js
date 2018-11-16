@@ -1,5 +1,6 @@
 const MAX_VELOCITY = 15;
 var object;
+
 class Game{
 
     constructor(){
@@ -7,13 +8,15 @@ class Game{
         this.cube = new RubikCube();
         this.message = new Text();
         this.eightBallPool = new EightBallPool();
-        this.sprite = new Sprite();
+        this.HUD = new HUD();
         
         scene.add(this.table);
         scene.add(this.cube);
         scene.add(this.table);
         scene.add(this.eightBallPool);
 
+        pauseScene.add(this.HUD);
+        
         this.translactionAngle = 0;
         this.translactionVelocity = 0;
         object = this;
@@ -47,8 +50,8 @@ class Game{
     }
 
     refreshTextPosition() {
-        this.message.position.copy( camera.position );
-        this.message.rotation.copy( camera.rotation );
+        this.message.position.copy( orthographicCamera.position );
+        this.message.rotation.copy( orthographicCamera.rotation );
         this.message.updateMatrix();
         this.message.translateZ( - 10 );
         this.message.translateX( - 3 );
@@ -56,25 +59,23 @@ class Game{
 
     pause() {
         this.paused = true;
-        //scene.add(this.message);
-        scene.add(this.sprite);
         this.refreshTextPosition();
     }
 
     unpause() {
         this.paused = false;
-        //scene.children.splice(scene.children.indexOf(this.message), 1);
-    }
-
-    turnOffLighting(){
-    	this.table.updateMaterialNoLight();
-    	this.eightBallPool.updateMaterialNoLight();
-    	this.cube.updateMaterialNoLight();
+        //pausescene.children.splice(scene.children.indexOf(this.sprite), 1);
     }
 
     turnOnLighting(){
+    	this.cube.updateMaterialLight();
     	this.table.updateMaterialLight();
     	this.eightBallPool.updateMaterialLight();
-    	this.cube.updateMaterialLight();
+    }
+
+    turnOffLighting(){
+    	this.cube.updateMaterialNoLight();
+    	this.table.updateMaterialNoLight();
+    	this.eightBallPool.updateMaterialNoLight();
     }
 }
