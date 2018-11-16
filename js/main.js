@@ -60,6 +60,12 @@ function render(){
     else
         game.turnOffLighting();
     game.rotateBall();
+
+    if(!directionalLight.visible)
+      pointLight.intensity = 4;
+    else
+      pointLight.intensity = 2;
+
     renderer.render(scene, camera);
 }
 
@@ -74,9 +80,9 @@ function createLight(){
     scene.add(helper);
 
     // PointLight
-    pointLight = new THREE.PointLight( 0xFFFFFF, 1, 10000 );
+    pointLight = new THREE.PointLight( 0xFFFFFF, 2 );
     var pointLightHelper = new THREE.PointLightHelper( pointLight, 1);
-    pointLight.position.set(-6, 6, -6);
+    pointLight.position.set(-4, 8, -4);
     scene.add( pointLight );
     scene.add( pointLightHelper );
 }
@@ -96,6 +102,9 @@ function onKeyDown(event) {
               translate = !translate;
             }
             break;
+        case 68: //d
+            directionalLight.visible = !directionalLight.visible;
+            break;
         case 82: //r
             if (paused)
                 reset = true;
@@ -108,7 +117,9 @@ function onKeyDown(event) {
         case 76: //l
             lighting = !lighting;
             break;
-        default: break;
+        case 80: //p
+            pointLight.visible = !pointLight.visible;
+            break;
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
             scene.traverse(function (node){
                 if(node instanceof THREE.Mesh){
@@ -116,6 +127,7 @@ function onKeyDown(event) {
                 }
             });
             break;
+        default: break;
     }
 }
 
