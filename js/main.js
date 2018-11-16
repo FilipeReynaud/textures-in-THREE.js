@@ -6,6 +6,8 @@ var reset = false;
 var paused = false;
 var acceleration = 0;
 var unpause = false;
+var lighting = true;
+var translate = false;
 
 function animate(){
     render();
@@ -48,6 +50,10 @@ function render(){
     if(game.moveBall(clock.getDelta(), acceleration))
         acceleration = 0;
 
+    if(lighting)
+        game.turnOnLighting();
+    else
+        game.turnOffLighting();
     game.rotateBall();
     renderer.render(scene, camera);
 }
@@ -80,8 +86,10 @@ function onKeyDown(event) {
 
     switch(event.keyCode) {
         case 66: //b
-            if (!paused)
-                acceleration = 1;
+            if (!paused){
+              acceleration = (translate) ? -1 : 1;
+              translate = !translate;
+            }
             break;
         case 82: //r
             if (paused)
@@ -91,6 +99,10 @@ function onKeyDown(event) {
             if (paused)
                 unpause = true;
             paused = !paused;
+            break;
+        case 76: //l
+            lighting = !lighting;
+            break;
         default: break;
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
             scene.traverse(function (node){
@@ -107,7 +119,7 @@ function onKeyUp(event) {
     switch(event.keyCode){
         case 66: //Tecla 'b'
             if (!paused)
-                acceleration = -1;
+              //  acceleration = -1;
             break;
         default: break;
     }

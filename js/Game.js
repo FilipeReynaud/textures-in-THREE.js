@@ -59,6 +59,19 @@ class Game{
         this.refreshTextPosition();
     }
 
+    turnOffLighting(){
+    	this.table.updateMaterialNoLight();
+    	console.log(this.table);
+    	this.eightBallPool.updateMaterialNoLight();
+    	this.cube.updateMaterialNoLight();
+    }
+
+    turnOnLighting(){
+    	this.table.updateMaterialLight();
+    	this.eightBallPool.updateMaterialLight();
+    	this.cube.updateMaterialLight();
+    }
+
     unpause() {
         this.paused = false;
         scene.children.splice(scene.children.indexOf(this.message), 1);
