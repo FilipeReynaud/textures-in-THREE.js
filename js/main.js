@@ -31,17 +31,22 @@ function render(){
     game.refreshTextPosition();
     if (reset) {
         scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
+        game.unpause();
         game = new Game();
         reset = false;
         paused = false;
+        translate = false;
+        acceleration = 0;
     }
 
     if (paused && !game.paused)
         game.pause();
         
-    else if (paused)
+    else if (paused) {
+        clock.getDelta();
         return;
-    
+    }
+
     if (unpause) {
         game.unpause();
         unpause = false;
@@ -114,17 +119,6 @@ function onKeyDown(event) {
     }
 }
 
-function onKeyUp(event) {
-
-    switch(event.keyCode){
-        case 66: //Tecla 'b'
-            if (!paused)
-              //  acceleration = -1;
-            break;
-        default: break;
-    }
-}
-
 function init(){
     renderer = new THREE.WebGLRenderer();
 
@@ -139,8 +133,6 @@ function init(){
 
     window.addEventListener('resize', onResize);
     window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keypress', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
 
     controls = new THREE.OrbitControls(camera, renderer.domELement);
     controls.enableKeys = false;
