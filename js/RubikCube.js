@@ -29,12 +29,10 @@ class RubikCube extends Objeto{
         this.mesh = this.createMesh(new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), this.materials, 0, 0.80, 0);
         this.mesh.material = this.materials;
 
-
-        // Ciclo para pode ser possivel alternar entre wireframe e cor solida
-        // TODO: Arranjar outra alternativa
-        // for(var i = 0; i < 6; i++)
-        //   this.addElement(100, 100, 100, new THREE.PlaneGeometry(0.1, 0.1), this.materials[i]);
-
+       for(var i = 0; i < 6; i++)
+          this.addElement(100, 100, 100, new THREE.PlaneGeometry(0.1, 0.1), this.materials[i]);
+        for(var i = 0; i < 6; i++)
+          this.addElement(100, 100, 100, new THREE.PlaneGeometry(0.1, 0.1), this.materials2[i]);
 
         return this;
 
