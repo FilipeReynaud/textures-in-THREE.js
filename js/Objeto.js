@@ -14,7 +14,7 @@ class Objeto extends THREE.Object3D {
     }
 
     addElement(x, y, z, geometry, material) {
-		this.add(this.createMesh(geometry, material, x, y, z));
+		    this.add(this.createMesh(geometry, material, x, y, z));
         //scene.add(mesh);
     }
 
