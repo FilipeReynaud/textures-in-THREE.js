@@ -6,6 +6,7 @@ var reset = false;
 var paused = false;
 var acceleration = 0;
 var unpause = false;
+var lighting = true;
 
 function animate(){
     render();
@@ -45,6 +46,10 @@ function render(){
     if(game.moveBall(clock.getDelta(), acceleration))
         acceleration = 0;
 
+    if(lighting)
+        game.turnOnLighting();
+    else
+        game.turnOffLighting();
     game.rotateBall();
     renderer.render(scene, camera);
 }
@@ -88,6 +93,10 @@ function onKeyDown(event) {
             if (paused)
                 unpause = true;
             paused = !paused;
+            break;
+        case 76: //l
+            lighting = !lighting;
+            break;
         default: break;
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
             scene.traverse(function (node){
