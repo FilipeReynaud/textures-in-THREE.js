@@ -1,8 +1,9 @@
-var camera, scene, airplane, directionalLight;
+var camera, scene, directionalLight, pointLight;
 var width = window.innerWidth;
 var height = window.innerHeight;
 var clock = new THREE.Clock();
-var accelaration = 0;
+
+var acceleration = 0;
 
 function animate(){
     render();
@@ -22,23 +23,29 @@ function createCamera(){
     camera.lookAt(scene.position);}
 
 function render(){
-    moveBall();
+
+    if(game.moveBall(clock.getDelta(), acceleration))
+        acceleration = 0;
+    game.rotateBall();
     renderer.render(scene, camera);
 }
 
-function moveBall() {
-    game.moveBall(clock.getDelta(), accelaration);
-    game.rotateBall(clock.getDelta(), accelaration);
-}
-
 function createLight(){
-    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 4);
+    // DirectionalLight
+    directionalLight = new THREE.DirectionalLight(0xFFFFFF, 3);
     var helper = new THREE.DirectionalLightHelper( directionalLight, 1 );
     directionalLight.position.set(3, 8, 2);
     directionalLight.rotateY(- Math.PI / 6);
     directionalLight.rotateZ(- Math.PI / 4);
     scene.add(directionalLight);
     scene.add(helper);
+
+    // PointLight
+    pointLight = new THREE.PointLight( 0xFFFFFF, 1, 10000 );
+    var pointLightHelper = new THREE.PointLightHelper( pointLight, 1);
+    pointLight.position.set(-6, 6, -6);
+    scene.add( pointLight );
+    scene.add( pointLightHelper );
 }
 
 function onResize(){
@@ -58,7 +65,7 @@ function onKeyDown(event) {
             });
             break;
         case 66: //Tecla 'b'
-            accelaration = 1;
+            acceleration = 1;
             break;
         default: break;
     }
@@ -67,8 +74,8 @@ function onKeyDown(event) {
 function onKeyUp(event) {
 
     switch(event.keyCode){
-        case 66:
-            accelaration = -1;
+        case 66: //Tecla 'b'
+            acceleration = -1;
             break;
         default: break;
     }

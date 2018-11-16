@@ -15,16 +15,21 @@ class RubikCube extends Objeto{
           var texture = new THREE.TextureLoader().load( names[i] );
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
-          texture.anisotropy = renderer.getMaxAnisotropy();
+          texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
           texture.repeat.set( 3, 3 );
-          materials.push(new THREE.MeshPhongMaterial( { map: texture, shininess: 15, bumpMap: texture, bumpScale: 0.01}));
+          materials.push(new THREE.MeshPhongMaterial( { color: 0xf5f5f5, map: texture, shininess: 10, bumpMap: texture, bumpScale: 0.01, wireframe: false}));
         }
 
-        var material = new THREE.MeshFaceMaterial( materials );
+        this.addElement(0, 0.80, 0, new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), materials);
 
-        this.addElement(0, 0.55, 0, new THREE.BoxGeometry(1, 1, 1, 5, 5, 5), material);
+        // Ciclo para pode ser possivel alternar entre wireframe e cor solida
+        // TODO: Arranjar outra alternativa
+        for(var i = 0; i < 6; i++)
+          this.addElement(100, 100, 100, new THREE.PlaneGeometry(0.1, 0.1), materials[i]);
+
 
         return this;
+
     }
 
 }

@@ -2,9 +2,10 @@ class Table extends Objeto{
 
     constructor(){
         super();
-        var material = new THREE.MeshLambertMaterial({color: 0x696969});
-        var texture = new THREE.TextureLoader().load( "../textures/white_and_black.jpg");
-        
+        var texture = new THREE.TextureLoader().load( "../textures/chess.png");
+
+        var material = new THREE.MeshPhongMaterial({color: 0x696969, shininess: 5, bumpMap: texture, bumpScale: 0.20});
+
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(4, 4);
