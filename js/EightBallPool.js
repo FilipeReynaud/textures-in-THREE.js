@@ -9,8 +9,10 @@ class EightBallPool extends Objeto{
         this.texture.repeat.set(2,1);
 
         this.material = new THREE.MeshPhongMaterial({map: this.texture});
+        this.material2 = new THREE.MeshBasicMaterial({map: this.texture});
         this.geometry = new THREE.SphereGeometry(1, 32, 32);
 
+        this.mesh = this.createMesh(this.geometry, this.material, 0, 1, 0);
         this.addElement(0, 1, 0, this.geometry, this.material);
 
         return this;
@@ -18,11 +20,11 @@ class EightBallPool extends Objeto{
     }
 
     updateMaterialNoLight(){
-      this.material = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture});
+      this.children[0].material = this.material2;
     }
 
     updateMaterialLight(){
-      this.material = new THREE.MeshPhongMaterial({color: 0x696969, map: this.texture});
+      this.children[0].material = this.material;
     }
 
 }

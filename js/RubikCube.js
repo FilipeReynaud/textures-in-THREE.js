@@ -25,8 +25,9 @@ class RubikCube extends Objeto{
         }
 
         this.addElement(0, 0.80, 0, new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), this.materials);
+        this.mesh = this.createMesh(new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), this.materials, 0, 0.80, 0);
         console.log(mesh.material);
-        mesh.material = this.materials2;
+        this.mesh.material = this.materials;
         console.log(mesh.material);
 
 
@@ -41,15 +42,11 @@ class RubikCube extends Objeto{
     }
 
     updateMaterialNoLight(){
-      for(var i = 0; i < 6; i++){
-        this.materials[i] = new THREE.MeshBasicMaterial({color: 0x696969, map: this.textures[i], wireframe: false});
-      }
+      this.children[0].material = this.materials2;
     }
 
     updateMaterialLight(){
-      for(var i = 0; i < 6; i++){
-       this.materials[i] = new THREE.MeshPhongMaterial({color: 0xf5f5f5, map: this.textures[i], shininess: 10, bumpMap: this.textures[i], bumpScale: 0.01, wireframe: false});
-      }
+      this.children[0].material = this.materials;
     }
 
 }

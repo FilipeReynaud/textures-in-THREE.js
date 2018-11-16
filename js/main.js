@@ -55,8 +55,10 @@ function render(){
     if(game.moveBall(clock.getDelta(), acceleration))
         acceleration = 0;
 
-    if(lighting)
+    if(lighting){
+        console.log("oi");
         game.turnOnLighting();
+    }
     else
         game.turnOffLighting();
     game.rotateBall();

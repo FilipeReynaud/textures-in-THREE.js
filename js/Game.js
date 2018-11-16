@@ -60,15 +60,16 @@ class Game{
     }
 
     turnOffLighting(){
+    	this.cube.updateMaterialNoLight();
+    	console.log(this.cube);
     	this.table.updateMaterialNoLight();
     	this.eightBallPool.updateMaterialNoLight();
-    	this.cube.updateMaterialNoLight();
     }
 
     turnOnLighting(){
+    	this.cube.updateMaterialLight();
     	this.table.updateMaterialLight();
     	this.eightBallPool.updateMaterialLight();
-    	this.cube.updateMaterialLight();
     }
 
     unpause() {
