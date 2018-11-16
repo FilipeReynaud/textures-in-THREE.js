@@ -26,6 +26,7 @@ function createCamera(){
 }
 
 function render(){
+    game.refreshTextPosition();
     if (reset) {
         scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
         game = new Game();
@@ -74,16 +75,10 @@ function onResize(){
 
 function onKeyDown(event) {
 
-    switch(event.keyCode){
-        case 65: //Tecla 'a' -> alternar entre wireframe e solid color
-            scene.traverse(function (node){
-                if(node instanceof THREE.Mesh){
-                    node.material.wireframe = !node.material.wireframe;
-                }
-            });
-            break;
+    switch(event.keyCode) {
         case 66: //b
-            acceleration = 1;
+            if (!paused)
+                acceleration = 1;
             break;
         case 82: //r
             if (paused)
@@ -94,6 +89,13 @@ function onKeyDown(event) {
                 unpause = true;
             paused = !paused;
         default: break;
+        case 87: //Tecla 'w' -> alternar entre wireframe e solid color
+            scene.traverse(function (node){
+                if(node instanceof THREE.Mesh){
+                    node.material.wireframe = !node.material.wireframe;
+                }
+            });
+            break;
     }
 }
 
@@ -101,7 +103,8 @@ function onKeyUp(event) {
 
     switch(event.keyCode){
         case 66: //Tecla 'b'
-            acceleration = -1;
+            if (!paused)
+                acceleration = -1;
             break;
         default: break;
     }
