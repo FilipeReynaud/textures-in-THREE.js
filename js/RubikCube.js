@@ -2,47 +2,47 @@ class RubikCube extends Objeto{
     constructor(){
         super();
 
+        //Array wiht Phong Materials
         this.materials = [];
+        //Array wiht Basic Materials
         this.materials2 = [];
-        //Vector with the name of the color of each face of the cube
+        //Array with the name of the color of each face of the cube
         this.names = [
           "../textures/Red.png", "../textures/Green.png",
           "../textures/Blue.png", "../textures/Orange.png",
           "../textures/White.png", "../textures/Yellow.png"
         ];
 
-        this.textures = [];
-
         for(var i = 0; i < 6; i++){
+          // Create Texture and properties
           var texture = new THREE.TextureLoader().load( this.names[i] );
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
-          texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          texture.anisotropy = renderer.capabilities.getMaxAnisotropy();  //fixes blury effect
           texture.repeat.set( 3, 3 );
-          this.textures.push(texture);
+
+          //Create material and assing texture
           this.materials.push(new THREE.MeshPhongMaterial( { color: 0xf5f5f5, map: texture, shininess: 10, bumpMap: texture, bumpScale: 0.01, wireframe: false}));
           this.materials2.push(new THREE.MeshBasicMaterial( { color: 0xf5f5f5, map: texture, wireframe: false}));
         }
 
+        //Create object
         this.addElement(0, 0.80, 0, new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), this.materials);
-
-        this.mesh = this.createMesh(new THREE.CubeGeometry(1.5, 1.5, 1.5, 5, 5, 5), this.materials, 0, 0.80, 0);
-        this.mesh.material = this.materials;
-
-       for(var i = 0; i < 6; i++)
-          this.addElement(100, 100, 100, new THREE.PlaneGeometry(0.1, 0.1), this.materials[i]);
-        for(var i = 0; i < 6; i++)
-          this.addElement(100, 100, 100, new THREE.PlaneGeometry(0.1, 0.1), this.materials2[i]);
 
         return this;
 
     }
 
     updateMaterialNoLight(){
+      for(var i = 0; i < 6; i++)
+        this.materials2[i].wireframe = wire;
       this.children[0].material = this.materials2;
+
     }
 
     updateMaterialLight(){
+      for(var i = 0; i < 6; i++)
+        this.materials[i].wireframe = wire;
       this.children[0].material = this.materials;
     }
 

@@ -8,8 +8,7 @@ var acceleration = 0;
 var unpause = false;
 var lighting = true;
 var translate = false;
-
-var sprite;
+var wire = false;
 
 function animate(){
     render();
@@ -51,7 +50,7 @@ function render(){
 
     if (paused && !game.paused)
         game.pause();
-        
+
     else if (paused)
         clock.getDelta();
 
@@ -69,18 +68,17 @@ function render(){
     else if(!paused)
         game.turnOffLighting();
 
-    if(!paused) 
+    if(!paused)
         game.rotateBall();
 
     if(!directionalLight.visible)
       pointLight.intensity = 4;
-
     else
       pointLight.intensity = 2;
 
     if(paused)
         renderer.render(pauseScene, orthographicCamera);
-    
+
     renderer.render(scene, camera);
 }
 
@@ -111,28 +109,28 @@ function onResize(){
 function onKeyDown(event) {
 
     switch(event.keyCode) {
-        case 66: //b
+        case 66: //Tecla 'b' -> alterar o estado de movimento da bola
             if (!paused){
               acceleration = (translate) ? -1 : 1;
               translate = !translate;
             }
             break;
-        case 68: //d
+        case 68: //Tecla 'd' -> liga/desliga luz direcional
             directionalLight.visible = !directionalLight.visible;
             break;
-        case 82: //r
+        case 82: //Tecla 'r' -> refresh do jogo
             if (paused)
                 reset = true;
             break;
-        case 83: //s
+        case 83: //Tecla 's' -> coloca jogo em pausa
             if (paused)
                 unpause = true;
             paused = !paused;
             break;
-        case 76: //l
+        case 76: //Tecla 'l' -> liga/desliga calculo de iluminacao
             lighting = !lighting;
             break;
-        case 80: //p
+        case 80: //Tecla 'p' -> liga/desliga luz pontual
             pointLight.visible = !pointLight.visible;
             break;
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
@@ -141,15 +139,15 @@ function onKeyDown(event) {
                     node.material.wireframe = !node.material.wireframe;
                 }
             });
+            wire = !wire;
             break;
         default: break;
     }
 }
 
 function init(){
-   
+
     renderer = new THREE.WebGLRenderer();
-    renderer.autoClear = false;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -166,4 +164,5 @@ function init(){
 
     controls = new THREE.OrbitControls(camera, renderer.domELement);
     controls.enableKeys = false;
+
 }

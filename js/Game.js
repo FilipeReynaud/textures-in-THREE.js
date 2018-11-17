@@ -1,4 +1,4 @@
-const MAX_VELOCITY = 15;
+const MAX_VELOCITY = 5;
 var object;
 
 class Game{
@@ -9,14 +9,14 @@ class Game{
         this.message = new Text();
         this.eightBallPool = new EightBallPool();
         this.HUD = new HUD();
-        
+
         scene.add(this.table);
         scene.add(this.cube);
         scene.add(this.table);
         scene.add(this.eightBallPool);
 
         pauseScene.add(this.HUD);
-        
+
         this.translactionAngle = 0;
         this.translactionVelocity = 0;
         object = this;
@@ -64,7 +64,6 @@ class Game{
 
     unpause() {
         this.paused = false;
-        //pausescene.children.splice(scene.children.indexOf(this.sprite), 1);
     }
 
     turnOnLighting(){

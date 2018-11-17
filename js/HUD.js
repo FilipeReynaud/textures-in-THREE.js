@@ -7,7 +7,7 @@ class HUD extends Objeto {
         this.add(new THREE.AxesHelper(10));
         this.rotation.y = 5 * Math.PI / 4;
         this.rotation.z = Math.PI;
-        console.log(this);
+        
         return this;
     }
 }
