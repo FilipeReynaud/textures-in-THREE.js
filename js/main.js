@@ -51,7 +51,7 @@ function render(){
     //Ball movement
     if( !paused && game.moveBall(clock.getDelta(), acceleration) )
         acceleration = 0;
-    
+
     if( !paused )
         game.rotateBall();
 
@@ -68,7 +68,7 @@ function render(){
 
     else if ( !directionalLight.visible && !paused )
         pointLight.intensity = 4;
-    
+
     //Render
     if ( paused ) {
         clock.getDelta();
@@ -112,13 +112,16 @@ function onKeyDown(event) {
             }
             break;
         case 68: //Tecla 'd' -> liga/desliga luz direcional
-            directionalLight.visible = !directionalLight.visible;
+            if (!paused)
+              directionalLight.visible = !directionalLight.visible;
             break;
         case 76: //Tecla 'l' -> liga/desliga calculo de iluminacao
-            lighting = !lighting;
+            if (!paused)
+              lighting = !lighting;
             break;
         case 80: //Tecla 'p' -> liga/desliga luz pontual
-            pointLight.visible = !pointLight.visible;
+            if (!paused)
+              pointLight.visible = !pointLight.visible;
             break;
         case 82: //Tecla 'r' -> refresh do jogo
             if (paused)
@@ -128,12 +131,14 @@ function onKeyDown(event) {
             paused = !paused;
             break;
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
-            scene.traverse(function (node){
-                if(node instanceof THREE.Mesh){
-                    node.material.wireframe = !node.material.wireframe;
-                }
-            });
-            wire = !wire;
+            if (!paused){
+              scene.traverse(function (node){
+                  if(node instanceof THREE.Mesh){
+                      node.material.wireframe = !node.material.wireframe;
+                  }
+              });
+              wire = !wire;
+            }
             break;
         default: break;
     }
@@ -155,7 +160,7 @@ function init(){
     //Event listeners
     window.addEventListener('resize', onResize);
     window.addEventListener('keydown', onKeyDown);
-    renderer.autoClear = false; 
+    renderer.autoClear = false;
     controls = new THREE.OrbitControls(camera, renderer.domELement);
     controls.enableKeys = false;
 

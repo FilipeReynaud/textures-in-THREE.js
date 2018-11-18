@@ -7,13 +7,13 @@ class Game{
         this.table = new Table();
         this.cube = new RubikCube();
         this.eightBallPool = new EightBallPool();
-        this.hud = new HUD();
+        this.HUD = new HUD();
 
         scene.add(this.table);
         scene.add(this.cube);
         scene.add(this.eightBallPool);
 
-        pauseScene.add(this.hud);
+        pauseScene.add(this.HUD);
 
         this.translactionAngle = 0;
         this.translactionVelocity = 0;
