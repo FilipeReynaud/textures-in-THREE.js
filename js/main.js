@@ -5,7 +5,6 @@ var clock = new THREE.Clock();
 var reset = false;
 var paused = false;
 var acceleration = 0;
-var unpause = false;
 var lighting = true;
 var translate = false;
 var wire = false;
@@ -21,7 +20,7 @@ function createScenes(){
     scene.add(new THREE.AxesHelper( -10 ));
 
     pauseScene = new THREE.Scene();
-    pauseScene.add(new THREE.AxesHelper(-1));
+    pauseScene.add(new THREE.AxesHelper(100));
 
     game = new Game();
 }
@@ -37,8 +36,9 @@ function createCameras(){
 }
 
 function render(){
-    game.refreshTextPosition();
-    if (reset) {
+
+    //Reset
+    if ( reset ) {
         scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
         game.unpause();
         game = new Game();
@@ -48,36 +48,32 @@ function render(){
         acceleration = 0;
     }
 
-    if (paused && !game.paused)
-        game.pause();
-
-    else if (paused)
-        clock.getDelta();
-
-    if (unpause) {
-        game.unpause();
-        unpause = false;
-    }
-
-    if(!paused && game.moveBall(clock.getDelta(), acceleration))
+    //Ball movement
+    if( !paused && game.moveBall(clock.getDelta(), acceleration) )
         acceleration = 0;
-
-    if(!paused && lighting)
-        game.turnOnLighting();
-
-    else if(!paused)
-        game.turnOffLighting();
-
-    if(!paused)
+    
+    if( !paused )
         game.rotateBall();
 
-    if(!directionalLight.visible)
-      pointLight.intensity = 4;
-    else
-      pointLight.intensity = 2;
+    //Point light
+    if( lighting && !paused )
+        game.turnOnLighting();
 
-    if(paused)
+    else if ( !lighting && !paused )
+        game.turnOffLighting();
+
+    //Directional light
+    if( directionalLight.visible && !paused )
+        pointLight.intensity = 2;
+
+    else if ( !directionalLight.visible && !paused )
+        pointLight.intensity = 4;
+    
+    //Render
+    if ( paused ) {
+        clock.getDelta();
         renderer.render(pauseScene, orthographicCamera);
+    }
 
     renderer.render(scene, camera);
 }
@@ -85,19 +81,19 @@ function render(){
 function createLight(){
     // DirectionalLight
     directionalLight = new THREE.DirectionalLight(0xFFFFFF, 3);
-    var helper = new THREE.DirectionalLightHelper( directionalLight, 1 );
     directionalLight.position.set(3, 8, 2);
     directionalLight.rotateY(- Math.PI / 6);
     directionalLight.rotateZ(- Math.PI / 4);
     scene.add(directionalLight);
-    scene.add(helper);
+
+    scene.add(new THREE.DirectionalLightHelper( directionalLight, 1 ));
 
     // PointLight
     pointLight = new THREE.PointLight( 0xFFFFFF, 2 );
-    var pointLightHelper = new THREE.PointLightHelper( pointLight, 1);
     pointLight.position.set(-4, 8, -4);
     scene.add( pointLight );
-    scene.add( pointLightHelper );
+
+    scene.add( new THREE.PointLightHelper( pointLight, 1) );
 }
 
 function onResize(){
@@ -118,20 +114,18 @@ function onKeyDown(event) {
         case 68: //Tecla 'd' -> liga/desliga luz direcional
             directionalLight.visible = !directionalLight.visible;
             break;
-        case 82: //Tecla 'r' -> refresh do jogo
-            if (paused)
-                reset = true;
-            break;
-        case 83: //Tecla 's' -> coloca jogo em pausa
-            if (paused)
-                unpause = true;
-            paused = !paused;
-            break;
         case 76: //Tecla 'l' -> liga/desliga calculo de iluminacao
             lighting = !lighting;
             break;
         case 80: //Tecla 'p' -> liga/desliga luz pontual
             pointLight.visible = !pointLight.visible;
+            break;
+        case 82: //Tecla 'r' -> refresh do jogo
+            if (paused)
+                reset = true;
+            break;
+        case 83: //Tecla 's' -> coloca jogo em pausa
+            paused = !paused;
             break;
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
             scene.traverse(function (node){
@@ -161,7 +155,7 @@ function init(){
     //Event listeners
     window.addEventListener('resize', onResize);
     window.addEventListener('keydown', onKeyDown);
-
+    renderer.autoClear = false; 
     controls = new THREE.OrbitControls(camera, renderer.domELement);
     controls.enableKeys = false;
 
