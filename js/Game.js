@@ -45,15 +45,7 @@ class Game{
         quaternion.setFromAxisAngle(new THREE.Vector3(this.eightBallPool.position.z - this.prevZ, 0, -(this.eightBallPool.position.x - this.prevX)).normalize(), angle/10);
         this.eightBallPool.children[0].applyQuaternion(quaternion);
     }
-
-    pause() {
-        this.paused = true;
-    }
-
-    unpause() {
-        this.paused = false;
-    }
-
+    
     turnOnLighting(){
     	this.cube.updateMaterialLight();
     	this.table.updateMaterialLight();

@@ -15,10 +15,12 @@ function animate(){
 }
 
 function createScenes(){
+    //Main scene
     scene = new THREE.Scene();
 
     scene.add(new THREE.AxesHelper( -10 ));
-
+    
+    //Pause scene
     pauseScene = new THREE.Scene();
     pauseScene.add(new THREE.AxesHelper(100));
 
@@ -26,10 +28,12 @@ function createScenes(){
 }
 
 function createCameras(){
+    //Main scene camera
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(10, 10, 10);
     camera.lookAt(scene.position);
 
+    //Pause scene camera
     orthographicCamera = new THREE.OrthographicCamera(-25,25,-25,25,-30,30);
     orthographicCamera.position.set(10,10,10);
     orthographicCamera.lookAt(scene.position);
@@ -40,7 +44,6 @@ function render(){
     //Reset
     if ( reset ) {
         scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
-        game.unpause();
         game = new Game();
         reset = false;
         paused = false;
@@ -111,22 +114,30 @@ function onKeyDown(event) {
               translate = !translate;
             }
             break;
+
         case 68: //Tecla 'd' -> liga/desliga luz direcional
-            directionalLight.visible = !directionalLight.visible;
+            if ( lighting )
+                directionalLight.visible = !directionalLight.visible;
             break;
+
         case 76: //Tecla 'l' -> liga/desliga calculo de iluminacao
             lighting = !lighting;
             break;
+
         case 80: //Tecla 'p' -> liga/desliga luz pontual
-            pointLight.visible = !pointLight.visible;
+            if ( lighting )
+                pointLight.visible = !pointLight.visible;
             break;
+
         case 82: //Tecla 'r' -> refresh do jogo
             if (paused)
                 reset = true;
             break;
+            
         case 83: //Tecla 's' -> coloca jogo em pausa
             paused = !paused;
             break;
+
         case 87: //Tecla 'w' -> alternar entre wireframe e solid color
             scene.traverse(function (node){
                 if(node instanceof THREE.Mesh){
@@ -135,6 +146,7 @@ function onKeyDown(event) {
             });
             wire = !wire;
             break;
+
         default: break;
     }
 }
@@ -155,7 +167,10 @@ function init(){
     //Event listeners
     window.addEventListener('resize', onResize);
     window.addEventListener('keydown', onKeyDown);
+
+    //Prevents renderer from deleting pause scene when pause mode is on 
     renderer.autoClear = false; 
+
     controls = new THREE.OrbitControls(camera, renderer.domELement);
     controls.enableKeys = false;
 
