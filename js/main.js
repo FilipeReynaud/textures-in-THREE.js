@@ -72,12 +72,13 @@ function render(){
         pointLight.intensity = 4;
 
     //Render
+    renderer.render(scene, camera);
+    
     if ( paused ) {
         clock.getDelta();
+        renderer.clearDepth();
         renderer.render(pauseScene, orthographicCamera);
     }
-
-    renderer.render(scene, camera);
 }
 
 function createLight(){
