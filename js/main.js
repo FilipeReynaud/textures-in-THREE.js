@@ -17,12 +17,11 @@ function animate(){
 function createScenes(){
     //Main scene
     scene = new THREE.Scene();
-
-    scene.add(new THREE.AxesHelper( -10 ));
+    //scene.add(new THREE.AxesHelper( -10 ));
     
     //Pause scene
     pauseScene = new THREE.Scene();
-    pauseScene.add(new THREE.AxesHelper(100));
+    //pauseScene.add(new THREE.AxesHelper(100));
 
     game = new Game();
 }
@@ -34,8 +33,8 @@ function createCameras(){
     camera.lookAt(scene.position);
 
     //Pause scene camera
-    orthographicCamera = new THREE.OrthographicCamera(-25,25,-25,25,-30,30);
-    orthographicCamera.position.set(10,10,10);
+    orthographicCamera = new THREE.OrthographicCamera(-25, 25, -25, 25, -30, 30);
+    orthographicCamera.position.set(10, 10, 10);
     orthographicCamera.lookAt(scene.position);
 }
 
