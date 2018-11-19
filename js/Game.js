@@ -3,7 +3,7 @@ const RADIUS = 3;
 var object;
 
 class Game{
-
+    
     constructor(){
         this.table = new Table();
         this.cube = new RubikCube();

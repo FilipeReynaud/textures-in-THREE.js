@@ -8,7 +8,7 @@ class EightBallPool extends Objeto{
         this.texture.wrapS = THREE.RepeatWrapping;
         this.texture.wrapT = THREE.RepeatWrapping;
         this.texture.anisotropy = renderer.capabilities.getMaxAnisotropy(); //fixes blury effect
-        this.texture.repeat.set(2,1);
+        this.texture.repeat.set(2, 1);
 
         //Create material and assing texture
         this.material = new THREE.MeshPhongMaterial({shininess: 40, map: this.texture, wireframe: false });

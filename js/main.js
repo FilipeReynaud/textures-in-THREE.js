@@ -17,7 +17,7 @@ function animate(){
 function createScenes(){
     //Main scene
     scene = new THREE.Scene();
-    //scene.add(new THREE.AxesHelper( -10 ));
+    //scene.add(new THREE.AxesHelper( 10 ));
     
     //Pause scene
     pauseScene = new THREE.Scene();
@@ -43,26 +43,31 @@ function render(){
     //Reset
     if ( reset ) {
         scene.children.splice(scene.children.indexOf(game.eightBallPool), 1);
+        scene.children.splice(scene.children.indexOf(game.table), 1);
+        scene.children.splice(scene.children.indexOf(game.cube), 1);
         game = new Game();
         reset = false;
         paused = false;
         translate = false;
+        lighting = true;
         acceleration = 0;
     }
 
     //Ball movement
-    if( !paused && game.moveBall(clock.getDelta(), acceleration) )
+    if( !paused && game.moveBall( clock.getDelta(), acceleration ) )
         acceleration = 0;
 
     if( !paused )
         game.rotateBall();
 
     //Point light
-    if( lighting && !paused )
+    if( lighting && !paused ){
         game.turnOnLighting();
+    }
 
-    else if ( !lighting && !paused )
+    else if ( !lighting && !paused ){
         game.turnOffLighting();
+    }
 
     //Directional light
     if( directionalLight.visible && !paused )
@@ -76,7 +81,7 @@ function render(){
     
     if ( paused ) {
         clock.getDelta();
-        renderer.clearDepth();
+        renderer.clearDepth(); //Overlaps pause scene to main scene
         renderer.render(pauseScene, orthographicCamera);
     }
 }

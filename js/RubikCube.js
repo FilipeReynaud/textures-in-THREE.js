@@ -8,12 +8,15 @@ class RubikCube extends Objeto{
         this.materials2 = [];
         //Array with the name of the color of each face of the cube
         this.names = [
-          "../textures/Red.png", "../textures/Green.png",
-          "../textures/Blue.png", "../textures/Orange.png",
-          "../textures/White.png", "../textures/Yellow.png"
+          "../textures/Red.png",
+          "../textures/Green.png",
+          "../textures/Blue.png",
+          "../textures/Orange.png",
+          "../textures/White.png",
+          "../textures/Yellow.png"
         ];
 
-        for(var i = 0; i < 6; i++){
+        for(var i = 0; i < 6; i++) {
           // Create Texture and properties
           var texture = new THREE.TextureLoader().load( this.names[i] );
           texture.wrapS = THREE.RepeatWrapping;
@@ -35,6 +38,7 @@ class RubikCube extends Objeto{
     updateMaterialNoLight(){
       for(var i = 0; i < 6; i++)
         this.materials2[i].wireframe = wire;
+
       this.children[0].material = this.materials2;
 
     }
@@ -42,6 +46,7 @@ class RubikCube extends Objeto{
     updateMaterialLight(){
       for(var i = 0; i < 6; i++)
         this.materials[i].wireframe = wire;
+
       this.children[0].material = this.materials;
     }
 

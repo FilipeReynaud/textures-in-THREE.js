@@ -11,8 +11,8 @@ class Table extends Objeto{
         this.texture.repeat.set(4,4);
 
         //Create material and assing texture
-        this.material = new THREE.MeshStandardMaterial({specular: 0xff0000, color: 0x696969, map: this.texture, roughness: 0.7, bumpMap: this.texture, bumpScale: 0.20, wireframe: false});
-        this.material2 = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture, wireframe: false})
+        this.material = new THREE.MeshStandardMaterial({shininess: 0,color: 0x696969, map: this.texture, roughness: 0.7, bumpMap: this.texture, bumpScale: 0.20, wireframe: false});
+        this.material2 = new THREE.MeshBasicMaterial({color: 0x696969, map: this.texture, wireframe: false});
 
         //Create object
         this.geometry = new THREE.BoxGeometry(10, 0.1, 10, 10, 10, 10);
