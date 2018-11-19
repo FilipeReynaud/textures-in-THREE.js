@@ -11,7 +11,7 @@ class EightBallPool extends Objeto{
         this.texture.repeat.set(2,1);
 
         //Create material and assing texture
-        this.material = new THREE.MeshPhongMaterial({ map: this.texture, wireframe: false });
+        this.material = new THREE.MeshPhongMaterial({specular: 0xffffff, map: this.texture, wireframe: false });
         this.material2 = new THREE.MeshBasicMaterial({ map: this.texture, wireframe: false });
 
         //Create object

@@ -22,7 +22,7 @@ class RubikCube extends Objeto{
           texture.repeat.set( 3, 3 );
 
           //Create material and assing texture
-          this.materials.push(new THREE.MeshPhongMaterial( { color: 0xf5f5f5, map: texture, shininess: 10, bumpMap: texture, bumpScale: 0.01, wireframe: false}));
+          this.materials.push(new THREE.MeshPhongMaterial( { color: 0xf5f5f5, specular: 0x00000, map: texture, shininess: 10, bumpMap: texture, bumpScale: 0.01, wireframe: false}));
           this.materials2.push(new THREE.MeshBasicMaterial( { color: 0xf5f5f5, map: texture, wireframe: false}));
         }
 
